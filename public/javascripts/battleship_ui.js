@@ -14,30 +14,7 @@ function BattleshipUI($root, battleship, socket) {
   this.socket.on("SHOOT", this.changeState.bind(this));
   this.socket.on("WAIT_FOR_OPPONENT_SHOT", this.changeState.bind(this));
   this.socket.on("SHOT_RESPONSE", this.updateBoard.bind(this));
-  this.socket.on("SHOT", function(data) {
-    var status = false;
-    this.shipsPlaced.forEach(function(ship) {
-      for (var i = 0; i < ship.segments.length; i++) {
-        if (JSON.stringify(ship.segments[i]) == JSON.stringify(data)) {
-          status = true;
-        }
-      }
-    });
-
-    if (status) {
-      var bombResponse = { message: "BOMB", coord: data };
-      this.submitMessage("SHOT_RESPONSE", bombResponse);
-      this.updateBoard(bombResponse, "mine");
-      this.segmentsLeft--;
-      this.isGameOver();
-    } else {
-      var missResponse = { message: "MISS", coord: data };
-      this.submitMessage("SHOT_RESPONSE", missResponse);
-      this.updateBoard(missResponse, "mine");
-    }
-
-  }.bind(this));
-
+  this.socket.on("SHOT", this.checkIfHit.bind(this));
   this.socket.on("win", this.updateWinnerBoard.bind(this));
 }
 
@@ -71,12 +48,12 @@ BattleshipUI.prototype = {
     console.log(this.state + "  " + "is the new state");
   },
 
-  myBoardClick: function(coords, tile){
+  myBoardClick: function(coord, tile){
     if(this.state === GameStates.PLACE_SHIPS ){
       if (this.firstCoord === null) {
-         this.firstCoord = coords;
+         this.firstCoord = coord;
       } else {
-        this.secondCoord = coords;
+        this.secondCoord = coord;
 
         var currentShip = this.battleship.shipsToPlace.shift();
 
@@ -127,6 +104,29 @@ BattleshipUI.prototype = {
                     ship.segments[i][1] + "]").addClass('ship');
       }
     });
+  },
+
+  checkIfHit: function(data) {
+    var status = false;
+    this.shipsPlaced.forEach(function(ship) {
+      for (var i = 0; i < ship.segments.length; i++) {
+        if (JSON.stringify(ship.segments[i]) == JSON.stringify(data)) {
+          status = true;
+        }
+      }
+    });
+
+    if (status) {
+      var bombResponse = { message: "BOMB", coord: data };
+      this.submitMessage("SHOT_RESPONSE", bombResponse);
+      this.updateBoard(bombResponse, "mine");
+      this.segmentsLeft--;
+      this.isGameOver();
+    } else {
+      var missResponse = { message: "MISS", coord: data };
+      this.submitMessage("SHOT_RESPONSE", missResponse);
+      this.updateBoard(missResponse, "mine");
+    }
   },
 
   submitMessage: function(event, message) {
