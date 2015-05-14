@@ -9,14 +9,14 @@
   float: left;
 }
 
-.myBoard {
+.my-board {
   width: 300px;
   box-sizing: border-box;
   display: inline-block;
   margin-right: 30px;
 }
 
-.opponentBoard {
+.opponent-board {
   width: 300px;
   box-sizing: border-box;
   display: inline-block;
