@@ -43,39 +43,27 @@ function BattleshipUI($root, battleship, socket) {
 
 BattleshipUI.prototype = {
   createGrids: function () {
-    var myBoatGrid = [];
-    var $myBoard = $("<div class='my-board'></div>");
+    this.createGrid('my-board');
+    this.createGrid('opponent-board');
+  },
+
+  createGrid: function(className) {
+    var grid = [];
+    var $board = $("<div class='"+ className +"'></div>");
 
     for (var i = 0; i < 10; i++) {
-      myBoatGrid[i] = [];
+      grid[i] = [];
 
       for (var j = 0; j < 10; j++) {
-        myBoatGrid[i][j] = [$tile];
+        grid[i][j] = [$tile];
         var $tile = $("<div class='tile'></div>");
         $tile.attr("data-x", i);
         $tile.attr("data-y", j);
-        $myBoard.append($tile);
+        $board.append($tile);
       }
     }
 
-    this.$root.append($myBoard);
-
-    var myOpponentGrid = [];
-    var $opponentBoard = $("<div class='opponent-board'></div>");
-
-    for (var i = 0; i < 10; i++) {
-      myOpponentGrid[i] = [];
-
-      for (var j = 0; j < 10; j++) {
-        myOpponentGrid[i][j] = [$tile];
-        var $tile = $("<div class='tile'></div>");
-        $tile.attr("data-x", i);
-        $tile.attr("data-y", j);
-        $opponentBoard.append($tile);
-      }
-    }
-
-    this.$root.append($opponentBoard);
+    this.$root.append($board);
   },
 
   changeState: function(state){
