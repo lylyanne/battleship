@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="javascripts/battleship.js"></script>
+    <script src="javascripts/battleship_ui.js"></script>
+    <script src="javascripts/ship.js"></script>
+    <script src="javascripts/game_states.js"></script>
+    <link rel="stylesheet" href="stylesheets/style.css">
+  </head>
+  <body>
+    <div id="battleshipBoard">
+    </div>
+    <h1 id="alerts"></h1>
+
+    <script charset="utf-8">
+      var socket = io();
+      var battleship = new Battleship();
+      var $root = $("#battleshipBoard");
+      var battleshipUI = new BattleshipUI($root, battleship, socket);
+      battleshipUI.createGrids();
+
+    </script>
+  </body>
+</html>

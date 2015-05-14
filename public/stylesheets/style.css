@@ -1,0 +1,43 @@
+.ship {
+  background-color: red;
+}
+.tile {
+  width: 30px;
+  height: 30px;
+  box-sizing: border-box;
+  border: 1px solid black;
+  float: left;
+}
+
+.myBoard {
+  width: 300px;
+  box-sizing: border-box;
+  display: inline-block;
+  margin-right: 30px;
+}
+
+.opponentBoard {
+  width: 300px;
+  box-sizing: border-box;
+  display: inline-block;
+}
+
+.bomb {
+  background-image: url("../bomber.png");
+  -webkit-animation: play 1s steps(20) 1;
+  -moz-animation: play 1s steps(20) 1;
+}
+
+@-webkit-keyframes play {
+    from { background-position: 0px; }
+    to { background-position: -810px; }
+}
+
+@-moz-keyframes play {
+    from { background-position: 0px; }
+    to { background-position: -810px; }
+}
+
+.miss {
+  background-color: green;
+}
